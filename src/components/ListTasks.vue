@@ -34,29 +34,55 @@
                             </v-btn>
                         </template>
                         <v-list>
-                            <v-list-item value="1">
+                            <v-list-item value="1" @click="toggleEdit(index)">
                                 <v-list-item-title>Editar</v-list-item-title>
                             </v-list-item>
-                            <v-list-item value="2">
+                            <v-list-item value="2" @click="toggleDelete(index)">
                                 <v-list-item-title>Excluir</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
                 </template>
             </v-list-item>
-
             </v-list>
+
+            <dialog-task-field 
+            :dialog="showDialogTaskField"
+            :task="tasks[indexTaskSelect]"
+            @toggle="toggleEdit"/>
+
+            <dialog-delete 
+            :dialog="showDialogTaskField"
+            @toggleDelete="toggleDelete"/>
     </v-container>
 
-   
 </template>
 
 <script setup>
 import {defineProps} from 'vue';
+import DialogTaskField from '@/components/DialogTaskField.vue'
+import DialogDelete from '@/components/DialogDelete.vue'
 
 const props = defineProps({
-    tasks: Object
+    tasks: Object,
 })
+
+const indexTaskSelect = ref(0);
+const showDialogTaskField = ref(false);
+const toggleEdit = (index) =>{
+    showDialogTaskField.value = !showDialogTaskField.value;
+    if (index != null)
+        indexTaskSelect.value = index;
+}
+
+const toggleDelete = (index) =>{
+    showDialogTaskField.value = !showDialogTaskField.value;
+    if (index != null)
+        indexTaskSelect.value = index;
+}
+
+const showDialogDelete = ref(false);
+
 </script>
 
 <style>
